@@ -84,7 +84,7 @@ def save_csv(obj, fn, delimiter=",", has_header=True):
 
     for row in obj:
         if isinstance(row, dict):
-            row = [row[k] for k in keys]
+            row = ['"' + str(row[k]) + '"' if isinstance(row[k], str) else str(row[k]) for k in keys]
         writer.writerow(row)
 
     fn.close()

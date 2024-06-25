@@ -112,10 +112,11 @@ def map_async_with_thread(
         results = {}
 
         while len(not_done) > 0:
-            done, not_done = wait(not_done)
-            progress.update(task_id, advance=len(done))
+            done, not_done = wait(not_done, return_when="FIRST_COMPLETED")
             for future in done:
                 results[future.index] = future.result()
+            progress.update(task_id, advance=len(done))
+            progress.refresh()
 
         progress.stop()
 
